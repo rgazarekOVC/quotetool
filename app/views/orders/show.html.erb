@@ -1,4 +1,6 @@
-<p id="notice"><%= notice %></p>
+<% if notice.present? %>
+	<p class="alert alert-info"><%= notice %></p>
+<% end %>
 
 <p>
   <strong>Emp:</strong>
@@ -14,6 +16,120 @@
   <strong>Order num:</strong>
   <%= @order.order_num %>
 </p>
+	
+<table class="table table-hover">
+  <thead>
+    <tr>
+      
+      <th>Line num</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Discount</th>
+      <th>Order num</th>
+      <th>Notes</th>
+      <th>Visible</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <% @order_lines.each_with_index do |order_line, index| %>
+        <tr>
+          <td><%= index+1 %></td>
+          <td><%= Product.getProductName(order_line.product_id).prod_name %></td>
+          <td><%= order_line.quantity %></td>
+          <td><%= order_line.discount %></td>
+          <td><%= order_line.order_num %></td>
+          <td><%= order_line.notes %></td>
+          <td><%= order_line.visible %></td>
+          <td><%= link_to 'Edit', edit_order_line_path(order_line) %></td>
+          <td><%= link_to 'Destroy', order_line, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    
+    <% end %>
+  </tbody>
+</table>
+
+<%= form_for(@order_line) do |f| %>
+   
+   <% if false %>
+   <% if @order_line.errors.any? %>
+    <div id="error_explanation">
+     <h2><%= pluralize(@order_line.errors.count, "error") %> prohibited this order_line from being saved:</h2>
+
+      <ul>
+      <% @order_line.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% end %>
+
+
+      <%= f.hidden_field :order_id, class: 'form-control' %>
+        <%= f.hidden_field :order_num, :value=>@order.order_num, class: 'form-control' %>
+         <%= f.hidden_field :visible, class: 'form-control', :value=>true, :checked=>true %>
+      
+      <% if @order_lines.present? %>
+      <%= f.hidden_field :line_num, :value=>@order_lines.maximum("line_num")+1, class: 'form-control' %>
+        <% else %>
+        <%= f.hidden_field :line_num, :value=>1, class: 'form-control' %>
+        <% end %>
+
+  <div class="row">
+
+    <div class="field col-md-2 form-group">
+        <%= f.label :Product %><br>
+        <%= f.collection_select(:product_id, Product.all, :id, :prod_name, {:prompt => 'Select Product'}, {:class=> 'form-control'}) %>
+      </div>
+       <div class="field col-md-2 form-group">
+        <%= f.label :quantity %><br>
+        <%= f.number_field :quantity, class: 'form-control' %>
+      </div>
+       <div class="field col-md-2 form-group">
+        <%= f.label :discount %><br>
+        <%= f.number_field :discount, class: 'form-control' %>
+      </div>
+         <div class="field col-md-2 form-group">
+        <%= f.label :notes %><br>
+        <%= f.text_field :notes, class: 'form-control' %>
+      </div>
+      <div class="actions col-md-2" style="padding-top:25px;">
+        <%= f.submit "Add New Line", class: 'btn btn-primary' %>
+      </div>
+    </div>
+
+      
+  </div>
+<% end %>
+
+
+
+
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-5">Product Field</div>
+        <div class="col-lg-1">Quantity</div>
+        <div class="col-lg-1">Unit NRC</div>
+        <div class="col-lg-1">Unit MRC</div>
+        <div class="col-lg-1">Total NRC</div>
+        <div class="col-lg-1">Total MRC</div>
+      </div>
+<% @order_lines.each do |order_line| %>
+      <div class="row">
+        <div class="col-lg-5"><%= order_line.product_id %></div>
+        <div class="col-lg-1"><%= order_line.quantity %></div>
+        <div class="col-lg-1"> NRC WILL GO HERE</div>
+        <div class="col-lg-1">MRC WILL GO HERE</div>
+        <div class="col-lg-1">NRC WILL CALC HERE</div>
+        <div class="col-lg-1">MRC WILL CALC HERE</div>
+      </div>
+      <% end %>
+
+  </div>
+
+   
 <%= link_to 'Edit', edit_order_path(@order) %> |
 <%= link_to 'Back', orders_path %>

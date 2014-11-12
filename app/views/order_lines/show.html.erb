@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @order_line.order_id %>
+</p>
+
+<p>
+  <strong>Line num:</strong>
+  <%= @order_line.line_num %>
+</p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @order_line.product_id %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @order_line.quantity %>
+</p>
+
+<p>
+  <strong>Discount:</strong>
+  <%= @order_line.discount %>
+</p>
+
+<p>
+  <strong>Order num:</strong>
+  <%= @order_line.order_num %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @order_line.notes %>
+</p>
+
+<p>
+  <strong>Visible:</strong>
+  <%= @order_line.visible %>
+</p>
+
+<%= link_to 'Edit', edit_order_line_path(@order_line) %> |
+<%= link_to 'Back', order_lines_path %>

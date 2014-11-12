@@ -1,0 +1,53 @@
+  <%= form_for(@order_line) do |f| %>
+   
+   <% if false %>
+   <% if @order_line.errors.any? %>
+    <div id="error_explanation">
+     <h2><%= pluralize(@order_line.errors.count, "error") %> prohibited this order_line from being saved:</h2>
+
+      <ul>
+      <% @order_line.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% end %>
+
+
+  <div class="field">
+    <%= f.label :order_id %><br>
+    <%= f.number_field :order_id %>
+  </div>
+  <div class="field">
+    <%= f.label :line_num %><br>
+    <%= f.number_field :line_num %>
+  </div>
+  <div class="field">
+    <%= f.label :Product %><br>
+    <%= f.number_field :product_id %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity %><br>
+    <%= f.number_field :quantity %>
+  </div>
+  <div class="field">
+    <%= f.label :discount %><br>
+    <%= f.number_field :discount %>
+  </div>
+  <div class="field">
+    <%= f.label :order_num %><br>
+    <%= f.number_field :order_num %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :visible %><br>
+    <%= f.check_box :visible %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

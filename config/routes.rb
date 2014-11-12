@@ -1,9 +1,20 @@
 Quotetool::Application.routes.draw do
+  resources :products
+
+  resources :order_lines
   resources :orders
 
   get 'quotes' => "pages#quotes"
  
   root 'pages#welcome'
+
+  resources :orders do
+    member do
+      get :order_lines
+    end
+  end
+  
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

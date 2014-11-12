@@ -1,6 +1,12 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
+def orders
+  @order = Order.find(params[:id])
+  @order_lines = @orders.order_lines
+end
+
+
   # GET /orders
   # GET /orders.json
   def index
@@ -10,6 +16,15 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.json
   def show
+    @order = Order.find(params[:id])
+    @order_lines = @order.order_lines
+    @order_line = OrderLine.new(:order_id=>params[:id])
+    
+  end
+
+  def getProduct
+    @product_name = OrderLine.includes(:product).where(:order_id=>params[:id]) # one database call, fetching both project and user
+    @product_name.product # no database interaction
   end
 
   # GET /orders/new
@@ -22,7 +37,7 @@ class OrdersController < ApplicationController
   end
 
   # POST /orders
-  # POST /orders.json
+  # POST /orders.json   
   def create
     @order = Order.new(order_params)
 
@@ -35,6 +50,8 @@ class OrdersController < ApplicationController
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
+
+
   end
 
   # PATCH/PUT /orders/1

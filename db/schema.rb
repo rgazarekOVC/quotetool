@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141107145102) do
+ActiveRecord::Schema.define(version: 20141112172958) do
+
+  create_table "order_lines", force: true do |t|
+    t.integer  "line_num"
+    t.integer  "quantity"
+    t.integer  "discount"
+    t.integer  "order_num"
+    t.text     "notes"
+    t.boolean  "visible"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "product_id", limit: 255
+    t.integer  "order_id"
+  end
 
   create_table "orders", force: true do |t|
     t.integer  "emp_id"
@@ -20,5 +33,18 @@ ActiveRecord::Schema.define(version: 20141107145102) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "products", force: true do |t|
+    t.string   "prod_sku"
+    t.decimal  "prod_cost"
+    t.decimal  "prod_price"
+    t.string   "prod_account"
+    t.integer  "prod_category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "prod_name"
+  end
+
+  add_index "products", ["prod_sku"], name: "index_products_on_prod_sku", unique: true
 
 end
