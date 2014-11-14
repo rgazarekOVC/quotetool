@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141112172958) do
+ActiveRecord::Schema.define(version: 20141114195117) do
 
   create_table "order_lines", force: true do |t|
     t.integer  "line_num"
@@ -34,15 +34,23 @@ ActiveRecord::Schema.define(version: 20141112172958) do
     t.datetime "updated_at"
   end
 
+  create_table "product_categories", force: true do |t|
+    t.text     "category_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "products", force: true do |t|
     t.string   "prod_sku"
-    t.decimal  "prod_cost"
-    t.decimal  "prod_price"
+    t.decimal  "prod_nrc_cost"
+    t.decimal  "prod_nrc_price"
     t.string   "prod_account"
-    t.integer  "prod_category_id"
+    t.integer  "product_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "prod_name"
+    t.decimal  "prod_mrc_cost"
+    t.decimal  "prod_mrc_price"
   end
 
   add_index "products", ["prod_sku"], name: "index_products_on_prod_sku", unique: true

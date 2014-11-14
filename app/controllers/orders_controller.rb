@@ -19,13 +19,11 @@ end
     @order = Order.find(params[:id])
     @order_lines = @order.order_lines
     @order_line = OrderLine.new(:order_id=>params[:id])
+    @product_categories = @order_lines.product
     
   end
 
-  def getProduct
-    @product_name = OrderLine.includes(:product).where(:order_id=>params[:id]) # one database call, fetching both project and user
-    @product_name.product # no database interaction
-  end
+
 
   # GET /orders/new
   def new

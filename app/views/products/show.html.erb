@@ -12,13 +12,23 @@
 
 
 <p>
-  <strong>Prod cost:</strong>
-  <%= @product.prod_cost %>
+  <strong>Prod NRC Cost:</strong>
+  <%= @product.prod_nrc_cost %>
 </p>
 
 <p>
-  <strong>Prod price:</strong>
-  <%= @product.prod_price %>
+  <strong>Prod NRC Price:</strong>
+  <%= @product.prod_nrc_price %>
+</p>
+
+<p>
+  <strong>Prod MRC Cost:</strong>
+  <%= @product.prod_mrc_cost %>
+</p>
+
+<p>
+  <strong>Prod MRC Price:</strong>
+  <%= @product.prod_mrc_price %>
 </p>
 
 <p>
@@ -28,7 +38,7 @@
 
 <p>
   <strong>Prod category:</strong>
-  <%= @product.prod_category_id %>
+  <%= @product.product_category_id %>
 </p>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
