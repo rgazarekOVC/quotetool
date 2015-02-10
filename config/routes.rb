@@ -15,7 +15,9 @@ Quotetool::Application.routes.draw do
       get :order_lines
     end
   end
-  
+
+  post "/product_price_finder/:product_id" => "products#update_price"
+ 
 
 
   # The priority is based upon order of creation: first created -> highest priority.

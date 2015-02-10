@@ -28,6 +28,7 @@ class OrderLinesController < ApplicationController
   # POST /order_lines.json
   def create
     @order_line = OrderLine.new(order_line_params)
+  
 
     respond_to do |format|
       if @order_line.save
@@ -72,6 +73,6 @@ class OrderLinesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_line_params
-      params.require(:order_line).permit(:order_id, :line_num, :product_id, :quantity, :discount, :order_num, :notes, :visible)
+      params.require(:order_line).permit(:order_id, :line_num, :product_id, :quantity, :discount, :order_num, :notes, :visible, :mrc_cost_line, :mrc_price_line, :nrc_cost_line, :nrc_price_line)
     end
 end

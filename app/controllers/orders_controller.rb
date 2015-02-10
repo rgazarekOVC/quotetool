@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
+
+
 def orders
   @order = Order.find(params[:id])
   @order_lines = @orders.order_lines
@@ -23,6 +25,13 @@ end
     
   end
 
+ 
+def update_price
+  @product = Product.find(params[:product_id])
+  respond_to do |format|
+    format.js
+  end
+end
 
 
   # GET /orders/new

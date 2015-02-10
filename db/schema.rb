@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141114195117) do
+ActiveRecord::Schema.define(version: 20141205195836) do
 
   create_table "order_lines", force: true do |t|
     t.integer  "line_num"
@@ -22,8 +22,12 @@ ActiveRecord::Schema.define(version: 20141114195117) do
     t.boolean  "visible"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "product_id", limit: 255
+    t.integer  "product_id",     limit: 255
     t.integer  "order_id"
+    t.decimal  "mrc_cost_line"
+    t.decimal  "nrc_cost_line"
+    t.decimal  "mrc_price_line"
+    t.decimal  "nrc_price_line"
   end
 
   create_table "orders", force: true do |t|

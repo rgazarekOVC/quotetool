@@ -1,3 +1,12 @@
+<% content_for :bodyJS do %>
+
+<script language=”javascript”>
+$(document).ready(function() { $(‘#product_id’).change(function(){ $.ajax({url: ‘/counters/currentprice’, data: ‘id=’ + $(‘#product_id’).val(), dataType: ‘script’}); }) });
+</script>
+ <% end %>
+
+
+
 <% if notice.present? %>
 	<p class="alert alert-info"><%= notice %></p>
 <% end %>
@@ -53,22 +62,21 @@
 </table>
 
 <%= form_for(@order_line) do |f| %>
-   
-   <% if false %>
-   <% if @order_line.errors.any? %>
-    <div id="error_explanation">
-     <h2><%= pluralize(@order_line.errors.count, "error") %> prohibited this order_line from being saved:</h2>
 
-      <ul>
-      <% @order_line.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <% end %>
+    <% if false %>
+        <% if @order_line.errors.any? %>
+            <div id="error_explanation">
+                <h2><%= pluralize(@order_line.errors.count, "error") %> prohibited this order_line from being saved:</h2>
+            <ul>
+                <% @order_line.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+                <% end %>
+            </ul>
+            </div>
+        <% end %>
+    <% end %>
 
-
+     
       <%= f.hidden_field :order_id, class: 'form-control' %>
         <%= f.hidden_field :order_num, :value=>@order.order_num, class: 'form-control' %>
          <%= f.hidden_field :visible, class: 'form-control', :value=>true, :checked=>true %>
@@ -83,12 +91,23 @@
 
     <div class="field col-md-2 form-group">
         <%= f.label :Product %><br>
-        <%= f.collection_select(:product_id, Product.all, :id, :prod_name, {:prompt => 'Select Product'}, {:class=> 'form-control'}) %>
+        <%= f.collection_select(:product_id, Product.all, :id, :prod_name, {:prompt => 'Select Product'},  {:id => 'product_id'}) %>
       </div>
        <div class="field col-md-2 form-group">
         <%= f.label :quantity %><br>
         <%= f.number_field :quantity, class: 'form-control' %>
       </div>
+           <div class="field col-md-2 form-group">
+        <%= f.label :NRC %><br>
+        <%= f.number_field :nrc_price_line, class: 'form-control' %>
+      </div>
+     <div class="field col-md-2 form-group">
+        <%= f.label :MRC %><br>
+        <%= f.number_field :mrc_price_line, class: 'form-control' %>
+      </div>
+
+
+
        <div class="field col-md-2 form-group">
         <%= f.label :discount %><br>
         <%= f.number_field :discount, class: 'form-control' %>
@@ -97,12 +116,17 @@
         <%= f.label :notes %><br>
         <%= f.text_field :notes, class: 'form-control' %>
       </div>
+
+
+
+
+
+       
+
       <div class="actions col-md-2" style="padding-top:25px;">
         <%= f.submit "Add New Line", class: 'btn btn-primary' %>
       </div>
     </div>
-
-      
   </div>
 <% end %>
 
@@ -124,7 +148,7 @@
 <% @product_categories.each_with_index do |product_category, index| %>
     <table class="table table-hover table-bordered">
     <thead>
-    <% @order_lines.sortOrderLines(index).each_with_index do |order_line, index| %> 
+        <% @order_lines.sortOrderLines(index).each_with_index do |order_line, index| %> 
         <% if index == 0 %>
             <tr class="success">
                 <th><strong> <%= order_line.product.product_category.category_name %> </strong></th>
@@ -139,14 +163,39 @@
         <% else %>
         <% end %>
     <tbody>
-            <tr>
+            <tr> 
                 <td><%= order_line.product.prod_name %></td>
                 <td class="text-center"><%= order_line.quantity %></td>
                 <td class="text-center"><%= order_line.discount %></td>
-                <td class="text-center">NRC Here</td>
-                <td class="text-center">MRC Here</td>
-                <td class="text-center">Total NRC</td>
-                <td class="text-center">Total MRC</td>
+                <td class="text-center">
+                  <% if order_line.product.prod_nrc_price == 0 %>
+                  -
+                  <% else %>
+                  <%= number_to_currency(order_line.product.prod_nrc_price) %>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if order_line.product.prod_mrc_price == 0 %>
+                  -
+                  <% else %>
+                  <%= number_to_currency(order_line.product.prod_mrc_price) %>
+                    <% end %>
+                </td>
+                <td class="text-center">
+                  <% if order_line.product.prod_nrc_price == 0 %>
+                  -
+                  <% else %>
+                  <%= number_to_currency(order_line.product.prod_nrc_price * order_line.quantity)  %>
+                    <% end %>
+                </td>
+                <td class="text-center">
+                  <% if order_line.product.prod_mrc_price == 0 %>
+                  -
+                  <% else %>
+                  <%= number_to_currency(order_line.product.prod_mrc_price * order_line.quantity)  %>
+                    <% end %>
+                </td>
+            
             </tr>
                 <% if order_line.notes.present? %>
                     <tr>

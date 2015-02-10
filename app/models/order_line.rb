@@ -7,4 +7,5 @@ class OrderLine < ActiveRecord::Base
 	has_many :product_categories, through: :product
 
 	scope :sortOrderLines, -> (getCategoryID)  {joins(:product).where("product_category_id =?", getCategoryID)} 
+ 
 end

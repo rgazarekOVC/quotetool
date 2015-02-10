@@ -21,6 +21,13 @@ class ProductsController < ApplicationController
   def edit
   end
 
+def update_price
+  @product = Product.find(params[:product_id])
+  respond_to do |format|
+    format.js
+  end
+end
+
   # POST /products
   # POST /products.json
   def create
